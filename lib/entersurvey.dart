@@ -58,6 +58,33 @@ class _EnterSurveyState extends State<EnterSurvey> {
                 padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                 child: Image.asset('images/Report.png'),
               ),
+              SizedBox(height: 5.0),
+              //This button doesn't need to be working
+              FlatButton(
+                onPressed: () {},
+                padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+                child: Image.asset('images/TestingCenter.png'),
+              ),
+              SizedBox(height: 20.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Text(
+                    "How're You Feeling Today?",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(child: Image.asset('images/Happy.png')),
+                  Expanded(child: Image.asset('images/SadFace.png')),
+                ],
+              ),
             ],
           ),
         ));
