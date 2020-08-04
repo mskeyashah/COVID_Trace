@@ -92,10 +92,10 @@ class MyHomePageState extends StatelessWidget {
      try {
           Placemark placemark = await LocationService().getPlacemark();
           f1 = CoronavirusService().getLocationDataFromPlacemark(placemark);
-          //f1 = CoronavirusService().getLatestData();
+       if(f1 == null)
+         f1 = CoronavirusService().getLatestData();
      } on Exception catch(e) {
        print(e.toString());
-       f1 = CoronavirusService().getLatestData();
     }
     return f1;
   }

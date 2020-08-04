@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:covidtrace/survey.dart';
+import 'package:covidtrace/calendar.dart';
 
 
 void main(){
@@ -28,7 +29,7 @@ class Home extends StatelessWidget {
 
             children: [
               MyHomePageState(),
-              Survey(),
+              Calendar(),
               Survey(),
               Survey()
             ],

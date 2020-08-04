@@ -32,7 +32,7 @@ class CoronavirusService {
   final baseUrl = 'https://coronavirus-tracker-api.herokuapp.com/v2/';
 
   Future<CoronavirusData> getLatestData() async {
-    final response = await http.get(baseUrl + 'latest');
+    final response = await http.get('https://api.covid19api.com/summary');
 
     if (response.statusCode == 200) {
       return CoronavirusData.formatted(
@@ -73,14 +73,17 @@ class CoronavirusData {
   factory CoronavirusData.formatted({
     Map<String, dynamic> json,
     String country,
-    String province,
   }) {
-    int totalNumber = json['latest']['confirmed'];
+    int totalNumber;
+    if(country.contains("Globally"))
+      totalNumber = json['Global']['TotalConfirmed'];
+    else
+      totalNumber = json['latest']['confirmed'];
 
 
     return CoronavirusData(
       date: DateFormat('EEEE d MMMM y').format(DateTime.now()),
-      locationLabel: province == null ? country : '$country, $province',
+      locationLabel: country,
       totalNumber: totalNumber,
     );
   }

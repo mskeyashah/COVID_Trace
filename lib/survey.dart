@@ -4,6 +4,7 @@ import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
+
 String _selection = '';
 
 List<String> choices = ["Yes", "No", "I have been in contact with someone\nwho has tested positive for COVID-19."];
@@ -91,45 +92,45 @@ class SurveyPage extends State<Survey> {
         appBar: AppBar(
           title: Text("\nReport Your Test Results"),
         ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                color: Colors.deepPurple,
-                child: Row(
+        body: SingleChildScrollView(
+          child: Stack(
+              children: <Widget>[
+                Column(
                   children: <Widget>[
-                    SizedBox(width: 15),
-                    Text("Help others by reporting your health results!",
-                      style: TextStyle(
-                        color: Colors.white
-                      ))],
-                )),
-              Container(
-                  color: Colors.deepPurple,
-                  child: Row(
-                    children: <Widget>[
-                      Text("",)],
-                  )),
+                    Container(
+                        color: Colors.deepPurple,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: 15),
+                            Text("Help others by reporting your health results!",
+                                style: TextStyle(
+                                    color: Colors.white
+                                ))],
+                        )),
+                    Container(
+                        color: Colors.deepPurple,
+                        child: Row(
+                          children: <Widget>[
+                            Text("",)],
+                        )),
+
+                    Text('Have you tested positive for COVID-19?'),
+                    Column(
+                      children: choices.map((item) => RadioListTile(
+                        groupValue: _selection,
+                        title: Text(item),
+                        value: item,
+                        activeColor: Colors.black,
+                        onChanged: (val) {
+                          print(val);
+                          setState(() {
+                            _selection = val;
+                          });
+                        },
+                      )).toList(),
+                    ),
 
 
-              Text('Have you tested positive for COVID-19?'),
-              Column(
-                children: choices.map((item) => RadioListTile(
-                    groupValue: _selection,
-                    title: Text(item),
-                    value: item,
-                    activeColor: Colors.black,
-                    onChanged: (val) {
-                      print(val);
-                      setState(() {
-                        _selection = val;
-                      });
-                    },
-                  )).toList(),
-              ),
-
-              Expanded(
-                  child: Stack(children: <Widget>[
                     Column(children: <Widget>[
                       Text('What date did you test or come in\ncontact with someone who tested positive?'),
                       ActionChip(
@@ -159,22 +160,31 @@ class SurveyPage extends State<Survey> {
                       Text('Enter you zip code'),
                       Container(width: 75, height: 50,
                           child: TextField(
-                              decoration: new InputDecoration(
-                              border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1.0),)
-                              ),
+                            decoration: new InputDecoration(
+                                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1.0),)
+                            ),
                             onChanged: (String text){  //  on Changed ie while entering value real time.
-                        setState(() {
-                          _text = text;
-                        });
-                      },)),
+                              setState(() {
+                                _text = text;
+                              });
+                            },)),
+                      RaisedButton(
+
+                        onPressed: () {},
+                        child: const Text('Complete Check-in Report',
+                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                        color: Colors.deepPurple,
+                      ),
                     ],),
 
-        ]))
-            ]
+                  ],
+                ),
+
+              ]
 
           )
-              ,
-          )
+          ,
+        )
 
     );
   }
