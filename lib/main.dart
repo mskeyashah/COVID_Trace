@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:covidtrace/survey.dart';
-import 'package:covidtrace/calendar.dart';
+import 'package:covidtrace/entersurvey.dart';
 
-
-void main(){
+void main() {
   runApp(Home());
 }
 
 class Home extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     print("App started");
@@ -26,17 +24,9 @@ class Home extends StatelessWidget {
         length: 4,
         child: new Scaffold(
           body: TabBarView(
-
-            children: [
-              MyHomePageState(),
-              Calendar(),
-              Survey(),
-              Survey()
-            ],
+            children: [MyHomePageState(), Survey(), Survey(), EnterSurvey()],
           ),
-
           bottomNavigationBar: new TabBar(
-
             tabs: [
               Tab(
                 icon: new Icon(Icons.home),
@@ -52,14 +42,12 @@ class Home extends StatelessWidget {
               ),
             ],
             labelColor: Colors.deepPurple,
-
             unselectedLabelColor: Colors.grey,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorPadding: EdgeInsets.all(5.0),
             indicatorColor: Colors.white,
           ),
           backgroundColor: Colors.white,
-
         ),
       ),
     );
