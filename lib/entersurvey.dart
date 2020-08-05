@@ -5,12 +5,16 @@ import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
+
 class EnterSurvey extends StatefulWidget {
+
   @override
   _EnterSurveyState createState() => _EnterSurveyState();
 }
 
 class _EnterSurveyState extends State<EnterSurvey> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +58,13 @@ class _EnterSurveyState extends State<EnterSurvey> {
               ),
               SizedBox(height: 10.0),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("exiting");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Survey()),
+                  );
+                },
                 padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                 child: Image.asset('images/Report.png'),
               ),

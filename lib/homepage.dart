@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:covidtrace/location_service.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
 Future<CoronavirusData> f1;
 
 void main() {
@@ -91,8 +90,8 @@ class MyHomePageState extends StatelessWidget {
   Future<CoronavirusData> getData({String countryCode}) async {
      try {
           Placemark placemark = await LocationService().getPlacemark();
-          f1 = CoronavirusService().getLocationDataFromPlacemark(placemark);
-       if(f1 == null)
+         // f1 = CoronavirusService().getLocationDataFromPlacemark(placemark);
+       //if(f1 == null)
          f1 = CoronavirusService().getLatestData();
      } on Exception catch(e) {
        print(e.toString());

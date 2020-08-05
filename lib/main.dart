@@ -2,13 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:covidtrace/survey.dart';
+import 'package:covidtrace/calendar.dart';
 import 'package:covidtrace/entersurvey.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 void main() {
-  runApp(Home());
+
+  runApp(MyApp());
 }
 
-class Home extends StatelessWidget {
+TabController tabController;
+
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new HomePage(),
+    );
+  }
+
+}
+class HomePage extends StatefulWidget {
+
+  @override
+  Home createState() => new Home();
+}
+
+class Home extends State<HomePage> with SingleTickerProviderStateMixin{
+
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = new TabController(length: 4, vsync: this);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     print("App started");
@@ -22,11 +56,14 @@ class Home extends StatelessWidget {
       color: Colors.yellow,
       home: DefaultTabController(
         length: 4,
+        initialIndex: 1,
         child: new Scaffold(
           body: TabBarView(
-            children: [MyHomePageState(), Survey(), Survey(), EnterSurvey()],
+            controller: tabController,
+            children: [MyHomePageState(), Calendar(), Survey(), EnterSurvey()],
           ),
           bottomNavigationBar: new TabBar(
+            controller: tabController,
             tabs: [
               Tab(
                 icon: new Icon(Icons.home),

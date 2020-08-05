@@ -3,6 +3,9 @@ import 'package:covidtrace/main.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
+
 
 
 String _selection = '';
@@ -85,12 +88,49 @@ class SurveyPage extends State<Survey> {
   void initState() {
     super.initState();
   }
+  showAlertDialog(BuildContext context)
+  {
+    showDialog(
+        context: context,
+        builder: (_) => AssetGiffyDialog(
+          image: Image.asset('images/dialog.png'),
+          title: Text(
+            "Report Recorded!",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          description: Text(
+            'Thank you for reporting\nyour results! Your information will\nremain anonymous and stored\non '
+                'your device.Remember to keep track of your symptoms and health.',
+            textAlign: TextAlign.center,
+          ),
+          onOkButtonPressed: (){
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+          },
+          onCancelButtonPressed: (){},
+          buttonOkText: Text("Close",style: TextStyle(color: Colors.white)),
+          buttonOkColor: Colors.deepPurple,
+          buttonCancelColor: Colors.deepPurple,
+          buttonCancelText: Text("Calendar",style: TextStyle(color: Colors.white)),
+          buttonRadius: 20,
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("\nReport Your Test Results"),
+          automaticallyImplyLeading: true,
+          leading: IconButton (
+              icon:Icon(Icons.arrow_back),
+              onPressed:() {
+                Navigator.pop(context);}
+          ),
+
         ),
         body: SingleChildScrollView(
           child: Stack(
@@ -170,7 +210,10 @@ class SurveyPage extends State<Survey> {
                             },)),
                       RaisedButton(
 
-                        onPressed: () {},
+                        onPressed: () {
+                          showAlertDialog(context);
+
+                        },
                         child: const Text('Complete Check-in Report',
                             style: TextStyle(fontSize: 20, color: Colors.white)),
                         color: Colors.deepPurple,
