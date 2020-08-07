@@ -5,16 +5,12 @@ import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-
 class EnterSurvey extends StatefulWidget {
-
   @override
   _EnterSurveyState createState() => _EnterSurveyState();
 }
 
 class _EnterSurveyState extends State<EnterSurvey> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +65,13 @@ class _EnterSurveyState extends State<EnterSurvey> {
                 child: Image.asset('images/Report.png'),
               ),
               SizedBox(height: 5.0),
-              //This button doesn't need to be working
               FlatButton(
                 onPressed: () {},
                 padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                 child: Image.asset('images/TestingCenter.png'),
               ),
-              SizedBox(height: 20.0),
+              //Mood
+              SizedBox(height: 25.0),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -91,10 +87,140 @@ class _EnterSurveyState extends State<EnterSurvey> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(child: Image.asset('images/Happy.png')),
-                  Expanded(child: Image.asset('images/SadFace.png')),
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(10.0, 0, 5.0, 0),
+                      child: Image.asset('images/HappyFace.png'),
+                    ),
+                  ),
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 10.0, 5),
+                      child: Image.asset('images/SadFace.png'),
+                    ),
+                  ),
                 ],
               ),
+              //Covid Resources
+              SizedBox(height: 25.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Text(
+                    "COVID-19 Resources",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(20.0, 0, 5.0, 5),
+                      child: Image.asset('images/CDC.png'),
+                    ),
+                  ),
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 20.0, 5),
+                      child: Image.asset('images/Notifying.png'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(20.0, 0, 5.0, 0),
+                      child: Image.asset('images/LocalUpdates.png'),
+                    ),
+                  ),
+                  Expanded(
+                    child: FlatButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 20.0, 0),
+                      child: Image.asset('images/SafetyGuidelines.png'),
+                    ),
+                  ),
+                ],
+              ),
+              //Prevention Tips
+              SizedBox(height: 25.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Text(
+                    "Quick Prevention Tips",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Image.asset('images/sixfeetdistance.png',
+                        height: 75, width: 75),
+                  ),
+                  Expanded(
+                    child: Image.asset('images/facecover.png',
+                        height: 75, width: 75),
+                  ),
+                  Expanded(
+                    child: Image.asset('images/washhands.png',
+                        height: 75, width: 75),
+                  ),
+                ],
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                Text(
+                  'Social',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+                Text(
+                  'Wear A',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+                Text(
+                  'Wash Your',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                Text(
+                  'Distance',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+                Text(
+                  'Mask',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+                Text(
+                  'Hands',
+                  style:
+                      TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
+                ),
+              ]),
+              SizedBox(height: 30.0),
             ],
           ),
         ));
