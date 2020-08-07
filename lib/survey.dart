@@ -7,8 +7,15 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
 
+DateTime finalselectedDate;
 
 String _selection = '';
+String _text = '';
+DateTime _selectedDate;
+List<List<String>> _options = [['Fever', 'Dry Cough', 'Loss of Appetite', 'Fatigue','Muscle and Joint Pain','Diarrhea'],
+  ['Sore Throat', 'Runny Nose', 'Nasal Congestion', 'Shortness of Breath','Confusion','Loss of Smell']];
+List<List<bool>> _selected = [[false, false, false,false,false,false],[false, false, false,false,false,false]];
+
 
 List<String> choices = ["Yes", "No", "I have been in contact with someone\nwho has tested positive for COVID-19."];
 
@@ -18,11 +25,6 @@ class Survey extends StatefulWidget {
 }
 
 class SurveyPage extends State<Survey> {
-  String _text = '';
-  DateTime _selectedDate;
-  List<List<String>> _options = [['Fever', 'Dry Cough', 'Loss of Appetite', 'Fatigue','Muscle and Joint Pain','Diarrhea'],
-    ['Sore Throat', 'Runny Nose', 'Nasal Congestion', 'Shortness of Breath','Confusion','Loss of Smell']];
-  List<List<bool>> _selected = [[false, false, false,false,false,false],[false, false, false,false,false,false]];
 
   void _pickDateDialog() {
     showDatePicker(
@@ -53,14 +55,18 @@ class SurveyPage extends State<Survey> {
       for(int y = 0; y< _options[i].length; y++) {
         FilterChip filterChip = FilterChip(
           selected: _selected[i][y],
-          label: Text(_options[i][y],),
+          label: Text(_options[i][y],style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.transparent,
           selectedColor: Colors.deepPurple,
           labelStyle: TextStyle(
               color: _selected[i][y] ? Colors.white : Colors.deepPurple),
           showCheckmark: false,
 
-          shape: StadiumBorder(side: BorderSide()),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              color: Colors.grey,
+            ),),
           onSelected: (bool selected) {
             setState(() {
               _selected[i][y] = selected;
@@ -87,6 +93,12 @@ class SurveyPage extends State<Survey> {
   @override
   void initState() {
     super.initState();
+  }
+  bool isNull()
+  {
+    if(_selectedDate != null && _text != null && _selection != null)
+      return true;
+    return false;
   }
   showAlertDialog(BuildContext context)
   {
@@ -141,7 +153,7 @@ class SurveyPage extends State<Survey> {
                         color: Colors.deepPurple,
                         child: Row(
                           children: <Widget>[
-                            SizedBox(width: 15),
+                            SizedBox(width: 50),
                             Text("Help others by reporting your health results!",
                                 style: TextStyle(
                                     color: Colors.white
@@ -153,8 +165,16 @@ class SurveyPage extends State<Survey> {
                           children: <Widget>[
                             Text("",)],
                         )),
+                    SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 15),
+                        Text('Have you tested positive for COVID-19?',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold))],
+                    ),
 
-                    Text('Have you tested positive for COVID-19?'),
                     Column(
                       children: choices.map((item) => RadioListTile(
                         groupValue: _selection,
@@ -169,55 +189,119 @@ class SurveyPage extends State<Survey> {
                         },
                       )).toList(),
                     ),
-
+                    SizedBox(height: 20),
 
                     Column(children: <Widget>[
-                      Text('What date did you test or come in\ncontact with someone who tested positive?'),
-                      ActionChip(
-                        avatar: Icon(
-                          Icons.calendar_today,
-                          color: Colors.deepPurple,
-                        ),
-                        backgroundColor: Colors.transparent,
-                        shape: StadiumBorder(side: BorderSide()),
-                        labelStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,),
-                        label: Text(_selectedDate == null //ternary expression to check if date is null
-                            ? 'MM/DD/YY'
-                            : '${DateFormat('MM/dd/yy').format(_selectedDate)}'),
-                        onPressed: () {
-                          _pickDateDialog();
-                        },
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                          Text('What date did you test or come in\ncontact with someone who tested positive?',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold)),
+                        ],
                       ),
-                      Text('Experiencing any symptoms?'),
-                      Text('Select those that apply'),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                          ActionChip(
+                            avatar: Icon(
+                              Icons.calendar_today,
+                              color: Colors.deepPurple[200],
+                            ),
+                            backgroundColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                              color: Colors.grey,
+                            ),),
+                            labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,),
+                            label: Text(_selectedDate == null //ternary expression to check if date is null
+                                ? 'MM/DD/YY'
+                                : '${DateFormat('MM/dd/yy').format(_selectedDate)}'),
+                            onPressed: () {
+                              _pickDateDialog();
+                            },
+                          ),
+                        ]),
+                      SizedBox(height: 20),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                          Text('Experiencing any symptoms?',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                          Text('Select those that apply', style: TextStyle(
+                            fontSize: 15,)),
+                        ],
+                      ),
+
                       Container(
                         height: 70,
                         child: _buildChips(),
                       ),
-                      Text('Prevent the spread of COVID-19 by sharing\nsome information. Your information will\nremain anonymous.'),
-                      Text('Enter you zip code'),
-                      Container(width: 75, height: 50,
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                        Text('Prevent the spread of COVID-19 by sharing\nsome information. Your information will\nremain anonymous.',
+                            style: TextStyle(
+                              fontSize: 15,)),
+                      ]),
+                      SizedBox(height: 20),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                            Text('Enter you zip code',style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
+                      ]),
+                      SizedBox(height: 10),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 15),
+                          Container(width: 100, height: 45,
                           child: TextField(
                             decoration: new InputDecoration(
-                                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1.0),)
+                                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1.0),borderRadius: BorderRadius.circular(10))
                             ),
                             onChanged: (String text){  //  on Changed ie while entering value real time.
                               setState(() {
                                 _text = text;
                               });
                             },)),
-                      RaisedButton(
+                      ]),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                          width: 300,
 
-                        onPressed: () {
-                          showAlertDialog(context);
-
-                        },
-                        child: const Text('Complete Check-in Report',
-                            style: TextStyle(fontSize: 20, color: Colors.white)),
-                        color: Colors.deepPurple,
+                        child: RaisedButton(
+                          onPressed: () {
+                            finalselectedDate = _selectedDate;
+                            showAlertDialog(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(
+                              color: Colors.grey,
+                            ),),
+                          child: const Text('Complete Check-In Report',
+                              style: TextStyle(fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          color: Colors.deepPurple,
+                        ),
                       ),
+                      SizedBox(height: 30),
+
                     ],),
 
                   ],
