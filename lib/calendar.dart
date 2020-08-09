@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covidtrace/main.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -31,41 +32,26 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     super.initState();
     final _selectedDay = DateTime.now();
     var difference;
-
-
-    _events = {
-//      _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
-//      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-//      _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
-//      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-//      _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
-//      _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
-//      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-//      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-//      _selectedDay.add(Duration(days: 1)): ['Event A8', 'Event B8', 'Event C8', 'Event D8'],
-//      _selectedDay.add(Duration(days: 3)): Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-//      _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-//      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-//      _selectedDay.add(Duration(days: 17)): ['Event A12', 'Event B12', 'Event C12', 'Event D12'],
-//      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-//      _selectedDay.add(Duration(days: 0)): ['Event A14'],
-    };
+    _events = {};
 
     if(finalselectedDate != null && selection != "No")
     {
       difference = _selectedDay.difference(finalselectedDate).inDays;
-      print(difference);
+
       if(difference>14)
-        difference = 14;
-      for(int x = 0; x<=difference; x++)
       {
-        //int dayssince = difference-x;
-        _events[finalselectedDate.add(Duration(days: x))] = ['$x'];
+        for (int x = 0; x <=14; x++) {
+          _events[finalselectedDate.add(Duration(days: x))] = ['$x'];
+        }
 
       }
+      else {
+        for (int x = difference; x >= 0; x--) {
+          int dayssince = difference - x;
+          _events[_selectedDay.subtract(Duration(days: x))] = ['$dayssince'];
+        }
+      }
     }
-
-
 
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -86,33 +72,30 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
   }
 
   void _onDaySelected(DateTime day, List events) {
-    print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = events;
     });
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
   }
 
   void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Calendar"),
-        ),
+      appBar: AppBar(
+        title: Text("Calendar"),
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           // Switch out 2 lines below to play with TableCalendar's settings
           //-----------------------
           _buildTableCalendar(),
-         // _buildTableCalendarWithBuilders(),
+          // _buildTableCalendarWithBuilders(),
           //const SizedBox(height: 5),
           Divider(
             color: Colors.grey,
@@ -128,26 +111,71 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
   }
   Widget _buildTableCalendar() {
     return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepPurple[400],
-        selectedStyle: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
+        calendarController: _calendarController,
+        events: _events,
+        startingDayOfWeek: StartingDayOfWeek.sunday,
+        calendarStyle: CalendarStyle(
+          selectedColor: Colors.deepPurple[400],
+          todayStyle: TextStyle(
+            color: Colors.black,
+          ),
+          markersPositionBottom: 0,
+          selectedStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          todayColor: Colors.grey[300],
+          markersColor: Colors.deepPurple[700],
+          outsideDaysVisible: true,
         ),
-        todayColor: Colors.deepPurple[200],
-        markersColor: Colors.deepPurple[700],
-        outsideDaysVisible: true,
-      ),
-      headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
-        formatButtonVisible: false,
-      ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
+        headerStyle: HeaderStyle(
+          centerHeaderTitle: true,
+          formatButtonVisible: false,
+        ),
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekendStyle: TextStyle().copyWith(color: Colors.grey),
+          weekdayStyle: TextStyle().copyWith(color: Colors.grey),
+        ),
+        onDaySelected: _onDaySelected,
+        onVisibleDaysChanged: _onVisibleDaysChanged,
+        onCalendarCreated: _onCalendarCreated,
+        builders: CalendarBuilders(
+          selectedDayBuilder: (context, date, _) {
+            return FadeTransition(
+              opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+              child: Container(
+                  color: Colors.transparent,
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                        width: 60,
+                        child:Icon(Icons.lens,color: Colors.grey[300], size: 40),
+                      ),
+                      Positioned(
+                        left: 20,
+                        top: 17,
+                        child:Text(
+                          '${date.day}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ).copyWith(fontSize: 16.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: 60,
+                        child:Icon(Icons.panorama_fish_eye,color: Colors.orange,size: 40,),
+                      ),
+                    ],
+                  )
+              ),
+            );
+          },
+        )
     );
   }
 
@@ -182,9 +210,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
               color: Colors.deepOrange[300],
               width: 100,
               height: 100,
-              child: Text(
-                '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
+              child: Icon(Icons.panorama_fish_eye
               ),
             ),
           );
@@ -204,7 +230,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
         },
         markersBuilder: (context, date, events, holidays) {
           final children = <Widget>[];
-
           if (events.isNotEmpty) {
             children.add(
               Positioned(
@@ -214,7 +239,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
               ),
             );
           }
-
           return children;
         },
       ),
@@ -236,7 +260,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
       ),
       width: 16.0,
       height: 16.0,
-
     );
   }
 
@@ -252,11 +275,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                 width: 100,
                 margin: const EdgeInsets.symmetric(
                     horizontal: 0.0, vertical: 4.0),
-                child: /*ListTile(
-          title: Text(event.toString()),
-          onTap: () => print('$event tapped!'),
-        ),*/
-                Stack(
+                child: Stack(
                   children: <Widget>[
                     Positioned(child: Image.asset("images/home.png", height: 70,
                       width: 60,), left: 72, top: 40,),
@@ -332,38 +351,30 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                               "images/covidsymptom.png", height: 70,
                               width: 350,)
                         )
-
                       ],
                     )
-
-
                   ],
                 )
-
-            ))
-            .toList(),
+            )).toList(),
       );
     }
     else
-      {
-        return ListView(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                SizedBox(height: 10,),
-                FlatButton(
-                    onPressed: () {},
-                    child: Image.asset(
-                      "images/covidsymptom.png", height: 70,
-                      width: 350,)
-                )
-
-              ],
-            )
-
-          ],
-        );
-
-      }
+    {
+      return ListView(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(height: 10,),
+              FlatButton(
+                  onPressed: () {},
+                  child: Image.asset(
+                    "images/covidsymptom.png", height: 70,
+                    width: 350,)
+              )
+            ],
+          )
+        ],
+      );
+    }
   }
 }

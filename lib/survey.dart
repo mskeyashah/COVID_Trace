@@ -76,7 +76,7 @@ class SurveyPage extends State<Survey> {
         );
 
         chips.add(Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 7),
             child: filterChip
         ));
       }
@@ -182,7 +182,6 @@ class SurveyPage extends State<Survey> {
                         value: item,
                         activeColor: Colors.black,
                         onChanged: (val) {
-                          print(val);
                           setState(() {
                             selection = val;
                           });
@@ -241,6 +240,8 @@ class SurveyPage extends State<Survey> {
                           SizedBox(width: 15),
                           Text('Select those that apply', style: TextStyle(
                             fontSize: 15,)),
+                          SizedBox(width: 150,),
+                          Icon(Icons.arrow_forward,color: Colors.grey,)
                         ],
                       ),
 

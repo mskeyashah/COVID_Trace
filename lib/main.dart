@@ -47,7 +47,6 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    print("App started");
     SystemChrome.setEnabledSystemUIOverlays([]);
     return new MaterialApp(
       title: 'COVID TRACE',
