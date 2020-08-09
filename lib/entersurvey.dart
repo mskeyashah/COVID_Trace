@@ -5,13 +5,14 @@ import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
+
 class EnterSurvey extends StatefulWidget {
   @override
   _EnterSurveyState createState() => _EnterSurveyState();
 }
 
 class _EnterSurveyState extends State<EnterSurvey> {
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -89,16 +90,42 @@ class _EnterSurveyState extends State<EnterSurvey> {
                 children: [
                   Expanded(
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(happyimage.contains('pressed')){
+                            setState(() {
+                                happyimage = 'images/HappyFace.png';
+                             });
+                          }
+                          else{
+                          setState(() {
+                            happyimage = 'images/pressedhappyface.png';
+
+                          });
+
+                         }
+                      },
                       padding: EdgeInsets.fromLTRB(10.0, 0, 5.0, 0),
-                      child: Image.asset('images/HappyFace.png'),
+                      child: Image.asset(happyimage),
                     ),
                   ),
                   Expanded(
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(sadimage.contains('pressed')){
+                          setState(() {
+                            sadimage = 'images/SadFace.png';
+                          });
+                        }
+                        else{
+                          setState(() {
+                            sadimage = 'images/pressedsadface.png';
+
+                          });
+
+                        }
+                      },
                       padding: EdgeInsets.fromLTRB(5.0, 0, 10.0, 5),
-                      child: Image.asset('images/SadFace.png'),
+                      child: Image.asset(sadimage),
                     ),
                   ),
                 ],

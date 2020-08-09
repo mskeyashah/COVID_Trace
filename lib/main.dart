@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+var happyimage = 'images/HappyFace.png';
+var sadimage = 'images/SadFace.png';
 
 void main() {
 

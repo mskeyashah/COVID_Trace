@@ -38,6 +38,8 @@ dependencies:
   alpha2_countries: ^1.0.5
   giffy_dialog: ^1.6.1
   table_calendar: ^2.2.3
+  pie_chart: ^3.1.1
+
 
 
 dev_dependencies:
