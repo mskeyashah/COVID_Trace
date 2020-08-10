@@ -9,8 +9,8 @@ import 'package:giffy_dialog/giffy_dialog.dart';
 
 DateTime finalselectedDate;
 
-String selection = '';
-String text1;
+String _selection = '';
+String _text = '';
 DateTime _selectedDate;
 List<List<String>> _options = [['Fever', 'Dry Cough', 'Loss of Appetite', 'Fatigue','Muscle and Joint Pain','Diarrhea'],
   ['Sore Throat', 'Runny Nose', 'Nasal Congestion', 'Shortness of Breath','Confusion','Loss of Smell']];
@@ -76,7 +76,7 @@ class SurveyPage extends State<Survey> {
         );
 
         chips.add(Padding(
-            padding: EdgeInsets.symmetric(horizontal: 7),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: filterChip
         ));
       }
@@ -96,9 +96,9 @@ class SurveyPage extends State<Survey> {
   }
   bool isNull()
   {
-    if(_selectedDate != null && text1 != null && selection != null)
-      return false;
-    return true;
+    if(_selectedDate != null && _text != null && _selection != null)
+      return true;
+    return false;
   }
   showAlertDialog(BuildContext context)
   {
@@ -115,7 +115,7 @@ class SurveyPage extends State<Survey> {
           ),
           description: Text(
             'Thank you for reporting\nyour results! Your information will\nremain anonymous and stored\non '
-                'your device. Remember to keep track of your symptoms and health.',
+                'your device.Remember to keep track of your symptoms and health.',
             textAlign: TextAlign.center,
           ),
           onOkButtonPressed: (){
@@ -177,13 +177,14 @@ class SurveyPage extends State<Survey> {
 
                     Column(
                       children: choices.map((item) => RadioListTile(
-                        groupValue: selection,
+                        groupValue: _selection,
                         title: Text(item),
                         value: item,
                         activeColor: Colors.black,
                         onChanged: (val) {
+                          print(val);
                           setState(() {
-                            selection = val;
+                            _selection = val;
                           });
                         },
                       )).toList(),
@@ -240,8 +241,6 @@ class SurveyPage extends State<Survey> {
                           SizedBox(width: 15),
                           Text('Select those that apply', style: TextStyle(
                             fontSize: 15,)),
-                          SizedBox(width: 150,),
-                          Icon(Icons.arrow_forward,color: Colors.grey,)
                         ],
                       ),
 
@@ -275,7 +274,7 @@ class SurveyPage extends State<Survey> {
                             ),
                             onChanged: (String text){  //  on Changed ie while entering value real time.
                               setState(() {
-                                text1 = text;
+                                _text = text;
                               });
                             },)),
                       ]),
@@ -286,10 +285,8 @@ class SurveyPage extends State<Survey> {
 
                         child: RaisedButton(
                           onPressed: () {
-                            if(!isNull()) {
-                              finalselectedDate = _selectedDate;
-                              showAlertDialog(context);
-                            }
+                            finalselectedDate = _selectedDate;
+                            showAlertDialog(context);
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -300,7 +297,7 @@ class SurveyPage extends State<Survey> {
                               style: TextStyle(fontSize: 15,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
-                          color:  _selectedDate == null ? Colors.grey : text1 == null? Colors.grey : selection == null? Colors.grey: Colors.deepPurple,
+                          color: Colors.deepPurple,
                         ),
                       ),
                       SizedBox(height: 30),
