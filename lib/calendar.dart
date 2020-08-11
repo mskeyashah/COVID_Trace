@@ -17,7 +17,7 @@ class Calendar extends StatefulWidget {
 
 class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
   Map<String, double> dataMap = new Map();
-
+  DateTime endDate;
   List<Color> _colors = [
     Colors.deepPurple,
     Colors.grey[300],
@@ -37,7 +37,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     if(finalselectedDate != null && selection != "No")
     {
       difference = _selectedDay.difference(finalselectedDate).inDays;
-
+      endDate = finalselectedDate.add(Duration(days: 15));
       if(difference>14)
       {
         for (int x = 0; x <=14; x++) {
@@ -49,6 +49,13 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
         for (int x = difference; x >= 0; x--) {
           int dayssince = difference - x;
           _events[_selectedDay.subtract(Duration(days: x))] = ['$dayssince'];
+        }
+        int dif = endDate.difference(_selectedDay).inDays;
+        for (int x = 1; x <=dif; x++) {
+          if(x==dif)
+            _events[_selectedDay.add(Duration(days: x))] = ['non14'];
+          else
+            _events[_selectedDay.add(Duration(days: x))] = ['non'];
         }
       }
     }
@@ -115,7 +122,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
         events: _events,
         startingDayOfWeek: StartingDayOfWeek.sunday,
         calendarStyle: CalendarStyle(
-          selectedColor: Colors.deepPurple[400],
+          selectedColor: Colors.transparent,
           todayStyle: TextStyle(
             color: Colors.black,
           ),
@@ -129,8 +136,14 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
           outsideDaysVisible: true,
         ),
         headerStyle: HeaderStyle(
+          titleTextStyle: TextStyle(
+            color: Colors.deepPurple,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
           centerHeaderTitle: true,
           formatButtonVisible: false,
+
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
           weekendStyle: TextStyle().copyWith(color: Colors.grey),
@@ -140,13 +153,25 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
         onVisibleDaysChanged: _onVisibleDaysChanged,
         onCalendarCreated: _onCalendarCreated,
         builders: CalendarBuilders(
-          selectedDayBuilder: (context, date, _) {
+          markersBuilder: (context, date, events, holidays) {
+            final children = <Widget>[];
+            if (events.isNotEmpty) {
+              children.add(
+                Positioned(
+                  bottom: 1,
+                  child: _buildEventsMarker(date, events),
+                ),
+              );
+            }
+            return children;
+          },
+          todayDayBuilder: (context, date, _) {
             return FadeTransition(
               opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
               child: Container(
                   color: Colors.transparent,
                   width: 120,
-                  height: 120,
+                  height: 600,
                   child: Stack(
                     children: <Widget>[
                       SizedBox(
@@ -155,10 +180,11 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                         child:Icon(Icons.lens,color: Colors.grey[300], size: 40),
                       ),
                       Positioned(
-                        left: 20,
+                        width: 50,
                         top: 17,
                         child:Text(
                           '${date.day}',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -167,7 +193,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       ),
                       SizedBox(
                         height: 60,
-                        width: 60,
+                        width: 70,
                         child:Icon(Icons.panorama_fish_eye,color: Colors.orange,size: 40,),
                       ),
                     ],
@@ -179,92 +205,249 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     );
   }
 
-  // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders() {
-    return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
-      initialCalendarFormat: CalendarFormat.month,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      availableGestures: AvailableGestures.all,
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepPurple[400],
-        todayColor: Colors.deepPurple[200],
-        markersColor: Colors.deepPurple[700],
-        outsideDaysVisible: true,
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.black),
-      ),
-      headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
-        formatButtonVisible: false,
-      ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
-          return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-            child: Container(
-              margin: const EdgeInsets.all(4.0),
-              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepOrange[300],
-              width: 100,
-              height: 100,
-              child: Icon(Icons.panorama_fish_eye
-              ),
-            ),
-          );
-        },
-        todayDayBuilder: (context, date, _) {
-          return Container(
-            margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.amber[400],
-            width: 100,
-            height: 100,
-            child: Text(
-              '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
-            ),
-          );
-        },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
-          if (events.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: 1,
-                bottom: 1,
-                child: _buildEventsMarker(date, events),
-              ),
-            );
-          }
-          return children;
-        },
-      ),
-      onDaySelected: (date, events) {
-        _onDaySelected(date, events);
-        _animationController.forward(from: 0.0);
-      },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
-    );
-  }
-
   Widget _buildEventsMarker(DateTime date, List events) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color:  Colors.deepPurple,
-      ),
-      width: 16.0,
-      height: 16.0,
-    );
+    if(!events[0].contains("non") && date.difference(DateTime.now()).inDays!=0) {
+
+      if(events[0].contains("0") && date.difference(finalselectedDate).inDays==0){
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.only(top: 0, left: 0.0),
+            color: Colors.transparent,
+            width: 52,
+            height: 40,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(top: 7, left: 19.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.zero,
+                    ),
+                  ),
+                  width: 52.0,
+                  height: 26.0,
+                  child:
+                  Text(
+                    '${date.day}',
+                    style: TextStyle(color: Colors.white).copyWith(
+                        fontSize: 14.0),
+                  ),
+
+                ),
+
+                SizedBox(height: 6),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.deepPurple,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+
+                )
+              ],
+            )
+        );
+      }
+      else if(events[0].contains("14")){
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.only(top: 0, left: 0.0),
+            color: Colors.transparent,
+            width: 52,
+            height: 40,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(top: 7, left: 19.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.zero,
+                        topRight: Radius.circular(20.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.circular(20.0)
+                    ),
+                  ),
+                  width: 52.0,
+                  height: 26.0,
+                  child:
+                  Text(
+                    '${date.day}',
+                    style: TextStyle(color: Colors.white).copyWith(
+                        fontSize: 14.0),
+                  ),
+
+                ),
+
+                SizedBox(height: 6),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.deepPurple,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+
+                )
+              ],
+            )
+        );
+      }
+      else{
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.only(top: 0, left: 0.0),
+            color: Colors.transparent,
+            width: 52,
+            height: 40,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(top: 7, left: 19.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.deepPurple,
+                  ),
+                  width: 52.0,
+                  height: 26.0,
+                  child:
+                  Text(
+                    '${date.day}',
+                    style: TextStyle(color: Colors.white).copyWith(
+                        fontSize: 14.0),
+                  ),
+
+                ),
+
+                SizedBox(height: 6),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.deepPurple,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+
+                )
+              ],
+            )
+        );
+      }
+    }
+    else if(events[0].contains("non")){
+      if(events[0].contains("14")) {
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.only(top: 0, left: 0.0),
+            color: Colors.transparent,
+            width: 52,
+            height: 40,
+            child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 7, left: 20.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.zero,
+                        topRight: Radius.circular(20.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.circular(20.0),
+                      ),
+                    ),
+                    width: 52.0,
+                    height: 26.0,
+                    child:
+                    Text(
+                      '${date.day}',
+                      style: TextStyle(color: Colors.black).copyWith(
+                          fontSize: 14.0),
+                    ),
+
+                  ),
+                ]));
+      }
+      else
+      {
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.only(top: 0, left: 0.0),
+            color: Colors.transparent,
+            width: 52,
+            height: 40,
+            child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 7, left: 20.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.grey[300],
+                    ),
+                    width: 52.0,
+                    height: 26.0,
+                    child:
+                    Text(
+                      '${date.day}',
+                      style: TextStyle(color: Colors.black).copyWith(
+                          fontSize: 14.0),
+                    ),
+
+                  ),
+                ]));
+      }
+    }
+    else if(date.difference(DateTime.now()).inDays ==0)
+    {
+      return Container(
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          padding: const EdgeInsets.only(top: 0, left: 0.0),
+          color: Colors.transparent,
+          width: 52,
+          height: 40,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 7, left: 20.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.transparent,
+                ),
+                width: 52.0,
+                height: 26.0,
+
+              ),
+              SizedBox(height: 6),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.deepPurple,
+                ),
+                width: 8.0,
+                height: 8.0,
+
+              )
+
+            ],
+          ));
+    }
+
+
   }
 
   Widget _buildEventList() {
-    if(_selectedEvents.length != 0) {
+    if(_selectedEvents.length != 0 && !_selectedEvents[0].contains("non")) {
       dataMap["Flutter"] = double.parse(_selectedEvents.elementAt(0));
       dataMap["React"] = 14 - double.parse(_selectedEvents.elementAt(0));
       return ListView(
@@ -346,7 +529,9 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       children: <Widget>[
                         SizedBox(height: 175,),
                         FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             child: Image.asset(
                               "images/covidsymptom.png", height: 70,
                               width: 350,)
@@ -366,7 +551,9 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
             children: <Widget>[
               SizedBox(height: 10,),
               FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   child: Image.asset(
                     "images/covidsymptom.png", height: 70,
                     width: 350,)
