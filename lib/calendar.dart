@@ -478,7 +478,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                         showChartValues: true,
                         initialAngle: -89,
                         chartValueStyle: defaultChartValueStyle.copyWith(
-                          color: Colors.white,
+                          color: Colors.transparent,
                         ),
                         chartType: ChartType.ring,
                       ),

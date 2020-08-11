@@ -122,10 +122,7 @@ class _EnterSurveyState extends State<EnterSurvey> {
                                       color: Colors.transparent
                                   )
                                 ],
-                                closeFunction: (){
-                                  //Navigator.of(context, rootNavigator: false).pop();
-                                  Navigator.pop(context,false);
-                                }).show();
+                               ).show();
 
                           });
 
@@ -165,13 +162,7 @@ class _EnterSurveyState extends State<EnterSurvey> {
                                     child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                     color: Colors.transparent
                                 )
-                              ],
-                              closeFunction: (){
-                                //Navigator.pop(context);
-                                //Navigator.of(context).pop();
-                                Navigator.of(context, rootNavigator: true).pop();
-
-                              }).show();
+                              ],).show();
 
                         }
                       },
