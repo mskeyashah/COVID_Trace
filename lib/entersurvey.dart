@@ -4,6 +4,11 @@ import 'package:covidtrace/main.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+
+var happyimage = 'images/HappyFace.png';
+var sadimage = 'images/SadFace.png';
 
 
 class EnterSurvey extends StatefulWidget {
@@ -99,6 +104,28 @@ class _EnterSurveyState extends State<EnterSurvey> {
                           else{
                           setState(() {
                             happyimage = 'images/pressedhappyface.png';
+                            Alert(context: context,
+                                title: "",
+                                content: Column(
+                                    children: <Widget>[
+                                      Image.asset("images/good.png"),
+                                      Text("Awesome!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+
+                                      Text("\nWe are adding your health update to your calendar. Keep up the good habits!\n\nRemember to follow safety protocol!",
+                                        style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
+
+                                    ]),
+                                buttons: [
+                                  DialogButton(
+                                      onPressed: () {print("pressed");},
+                                      child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
+                                      color: Colors.transparent
+                                  )
+                                ],
+                                closeFunction: (){
+                                  //Navigator.of(context, rootNavigator: false).pop();
+                                  Navigator.pop(context,false);
+                                }).show();
 
                           });
 
@@ -119,8 +146,32 @@ class _EnterSurveyState extends State<EnterSurvey> {
                         else{
                           setState(() {
                             sadimage = 'images/pressedsadface.png';
-
                           });
+
+                          Alert(context: context,
+                              title: "",
+                              content: Column(
+                                  children: <Widget>[
+                                    Image.asset("images/bad.png"),
+                                    Text("Oh no!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+
+                                    Text("\nSorry you're not feeling well. Keep tracking your symptoms and get tested.\n\nFor serious symptoms seek immediate medical attention.",
+                                      style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
+
+                                  ]),
+                              buttons: [
+                                DialogButton(
+                                    onPressed: () {print("pressed");},
+                                    child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
+                                    color: Colors.transparent
+                                )
+                              ],
+                              closeFunction: (){
+                                //Navigator.pop(context);
+                                //Navigator.of(context).pop();
+                                Navigator.of(context, rootNavigator: true).pop();
+
+                              }).show();
 
                         }
                       },

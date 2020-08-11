@@ -9,8 +9,8 @@ import 'package:giffy_dialog/giffy_dialog.dart';
 
 DateTime finalselectedDate;
 
-String _selection = '';
-String _text = '';
+String selection = '';
+String text1;
 DateTime _selectedDate;
 List<List<String>> _options = [['Fever', 'Dry Cough', 'Loss of Appetite', 'Fatigue','Muscle and Joint Pain','Diarrhea'],
   ['Sore Throat', 'Runny Nose', 'Nasal Congestion', 'Shortness of Breath','Confusion','Loss of Smell']];
@@ -96,7 +96,7 @@ class SurveyPage extends State<Survey> {
   }
   bool isNull()
   {
-    if(_selectedDate != null && _text != null && _selection != null)
+    if(_selectedDate != null && text1 != null && selection != null)
       return true;
     return false;
   }
@@ -177,14 +177,14 @@ class SurveyPage extends State<Survey> {
 
                     Column(
                       children: choices.map((item) => RadioListTile(
-                        groupValue: _selection,
+                        groupValue: selection,
                         title: Text(item),
                         value: item,
                         activeColor: Colors.black,
                         onChanged: (val) {
                           print(val);
                           setState(() {
-                            _selection = val;
+                            selection = val;
                           });
                         },
                       )).toList(),
@@ -274,7 +274,7 @@ class SurveyPage extends State<Survey> {
                             ),
                             onChanged: (String text){  //  on Changed ie while entering value real time.
                               setState(() {
-                                _text = text;
+                                text1 = text;
                               });
                             },)),
                       ]),
@@ -286,7 +286,30 @@ class SurveyPage extends State<Survey> {
                         child: RaisedButton(
                           onPressed: () {
                             finalselectedDate = _selectedDate;
-                            showAlertDialog(context);
+                            //showAlertDialog(context);
+                            Alert(context: context,
+                                title: "",
+                                content: Column(
+                            children: <Widget>[
+                              Image.asset("images/reportrecorded.png"),
+                              Text("Report Recorded!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+
+                              Text("\nThank you for reporting your results. Your information will remain anonymous and stored on your device.\n\nRemember to keep track of your symptoms and health.",
+                                  style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
+
+                            ]),
+                                buttons: [
+                                  DialogButton(
+                                    onPressed: () {print("pressed");},
+                                    child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
+                                    color: Colors.transparent
+                                  )
+                                ],
+                                closeFunction: (){
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  //Navigator.pop(context);
+                            }).show();
+
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -297,7 +320,7 @@ class SurveyPage extends State<Survey> {
                               style: TextStyle(fontSize: 15,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
-                          color: Colors.deepPurple,
+                          color: isNull() ? Colors.deepPurple : Colors.grey,
                         ),
                       ),
                       SizedBox(height: 30),
