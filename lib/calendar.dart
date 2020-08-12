@@ -9,8 +9,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 
-
 class Calendar extends StatefulWidget {
+  final TabController tabController;
+
+  Calendar({Key key, this.tabController}) : super(key: key);
+
   @override
   CalendarPage createState() => CalendarPage();
 }
@@ -99,18 +102,13 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
           _buildTableCalendar(),
-          // _buildTableCalendarWithBuilders(),
-          //const SizedBox(height: 5),
           Divider(
             color: Colors.grey,
             height: 10,
             thickness: 1,
           ),
           Expanded(child: _buildEventList()),
-
         ],
       ),
 
@@ -237,9 +235,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                     style: TextStyle(color: Colors.white).copyWith(
                         fontSize: 14.0),
                   ),
-
                 ),
-
                 SizedBox(height: 6),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -249,7 +245,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
             )
@@ -296,7 +291,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
             )
@@ -325,9 +319,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                     style: TextStyle(color: Colors.white).copyWith(
                         fontSize: 14.0),
                   ),
-
                 ),
-
                 SizedBox(height: 6),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -337,7 +329,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
             )
@@ -374,7 +365,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       style: TextStyle(color: Colors.black).copyWith(
                           fontSize: 14.0),
                     ),
-
                   ),
                 ]));
       }
@@ -402,7 +392,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       style: TextStyle(color: Colors.black).copyWith(
                           fontSize: 14.0),
                     ),
-
                   ),
                 ]));
       }
@@ -425,7 +414,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                 ),
                 width: 52.0,
                 height: 26.0,
-
               ),
               SizedBox(height: 6),
               AnimatedContainer(
@@ -436,14 +424,10 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                 ),
                 width: 8.0,
                 height: 8.0,
-
               )
-
             ],
           ));
     }
-
-
   }
 
   Widget _buildEventList() {
@@ -530,7 +514,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                         SizedBox(height: 175,),
                         FlatButton(
                             onPressed: () {
-
+                              widget.tabController.index = 3;
                             },
                             child: Image.asset(
                               "images/covidsymptom.png", height: 70,
@@ -552,7 +536,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
               SizedBox(height: 10,),
               FlatButton(
                   onPressed: () {
-
+                    widget.tabController.index = 3;
                   },
                   child: Image.asset(
                     "images/covidsymptom.png", height: 70,

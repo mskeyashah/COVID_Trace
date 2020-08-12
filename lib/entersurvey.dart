@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:covidtrace/main.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 var happyimage = 'images/HappyFace.png';
 var sadimage = 'images/SadFace.png';
 
-
 class EnterSurvey extends StatefulWidget {
+  final TabController tabController;
+  EnterSurvey({Key key, this.tabController}) : super(key: key);
+
   @override
-  _EnterSurveyState createState() => _EnterSurveyState();
+  EnterSurveyState createState() => EnterSurveyState();
 }
 
-class _EnterSurveyState extends State<EnterSurvey> {
-    @override
+class EnterSurveyState extends State<EnterSurvey> {
+  void goToSecondScreen() async {
+      var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Survey()));
+      if(result == true)
+        widget.tabController.index = 1;
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -61,11 +67,7 @@ class _EnterSurveyState extends State<EnterSurvey> {
               SizedBox(height: 10.0),
               FlatButton(
                 onPressed: () {
-                  print("exiting");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Survey()),
-                  );
+                    goToSecondScreen();
                 },
                 padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                 child: Image.asset('images/Report.png'),
@@ -117,12 +119,16 @@ class _EnterSurveyState extends State<EnterSurvey> {
                                     ]),
                                 buttons: [
                                   DialogButton(
-                                      onPressed: () {print("pressed");},
+                                      onPressed: () {
+                                      Navigator.pop(context);},
                                       child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                       color: Colors.transparent
                                   )
                                 ],
-                               ).show();
+                                closeFunction: (){
+                                  //Navigator.of(context, rootNavigator: false).pop();
+                                  Navigator.pop(context,false);
+                                }).show();
 
                           });
 
@@ -158,7 +164,7 @@ class _EnterSurveyState extends State<EnterSurvey> {
                                   ]),
                               buttons: [
                                 DialogButton(
-                                    onPressed: () {print("pressed");},
+                                    onPressed: () {},
                                     child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                     color: Colors.transparent
                                 )
@@ -255,34 +261,38 @@ class _EnterSurveyState extends State<EnterSurvey> {
                   ),
                 ],
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Text(
-                  'Social',
+                  '\t\t\tSocial',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
+                SizedBox(width: 22),
                 Text(
                   'Wear A',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
+                SizedBox(width: 6),
                 Text(
                   'Wash Your',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
               ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Text(
                   'Distance',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
+                SizedBox(width: 0.5),
                 Text(
                   'Mask',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
+                SizedBox(width: 8),
                 Text(
                   'Hands',
                   style:

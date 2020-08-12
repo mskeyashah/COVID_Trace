@@ -20,6 +20,7 @@ List<List<bool>> _selected = [[false, false, false,false,false,false],[false, fa
 List<String> choices = ["Yes", "No", "I have been in contact with someone\nwho has tested positive for COVID-19."];
 
 class Survey extends StatefulWidget {
+  Survey({Key key}) : super(key: key);
   @override
   SurveyPage createState() => SurveyPage();
 }
@@ -100,36 +101,6 @@ class SurveyPage extends State<Survey> {
       return true;
     return false;
   }
-  showAlertDialog(BuildContext context)
-  {
-    showDialog(
-        context: context,
-        builder: (_) => AssetGiffyDialog(
-          image: Image.asset('images/dialog.png'),
-          title: Text(
-            "Report Recorded!",
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          description: Text(
-            'Thank you for reporting\nyour results! Your information will\nremain anonymous and stored\non '
-                'your device.Remember to keep track of your symptoms and health.',
-            textAlign: TextAlign.center,
-          ),
-          onOkButtonPressed: (){
-            Navigator.of(context, rootNavigator: true).pop();
-            Navigator.pop(context);
-          },
-          onCancelButtonPressed: (){},
-          buttonOkText: Text("Close",style: TextStyle(color: Colors.white)),
-          buttonOkColor: Colors.deepPurple,
-          buttonCancelColor: Colors.deepPurple,
-          buttonCancelText: Text("Calendar",style: TextStyle(color: Colors.white)),
-          buttonRadius: 20,
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +153,6 @@ class SurveyPage extends State<Survey> {
                         value: item,
                         activeColor: Colors.black,
                         onChanged: (val) {
-                          print(val);
                           setState(() {
                             selection = val;
                           });
@@ -300,7 +270,10 @@ class SurveyPage extends State<Survey> {
                             ]),
                                 buttons: [
                                   DialogButton(
-                                    onPressed: () {print("pressed");},
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                     Navigator.pop(context,true);
+                                    },
                                     child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                     color: Colors.transparent
                                   )

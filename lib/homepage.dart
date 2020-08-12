@@ -10,11 +10,19 @@ Future<CoronavirusData> f1;
 void main() {}
 
 class MyHomePageState extends StatelessWidget {
+  final TabController tabController;
+
+  MyHomePageState({Key key, this.tabController}) : super(key: key);
+
+  void goToSecondScreen(BuildContext context) async {
+    var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Survey()));
+    if(result == true)
+      tabController.index = 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<CoronavirusData> futureCoronavirusData = getData();
-    print("data");
-
     return Scaffold(
       appBar: AppBar(
         title: Text("COVID Trace"),
@@ -90,11 +98,6 @@ class MyHomePageState extends StatelessWidget {
                 Expanded(
                   child: FlatButton(
                     onPressed: () {
-                      print("exiting");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Survey()),
-                      );
                     },
                     padding: EdgeInsets.fromLTRB(10.0, 5, 5.0, 20),
                     child: Image.asset('images/hotspots.png'),
@@ -103,11 +106,7 @@ class MyHomePageState extends StatelessWidget {
                 Expanded(
                   child: FlatButton(
                     onPressed: () {
-                      print("exiting");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Survey()),
-                      );
+                      goToSecondScreen(context);
                     },
                     padding: EdgeInsets.fromLTRB(5.0, 5, 10.0, 20),
                     child: Image.asset('images/testresult.png'),
@@ -149,9 +148,6 @@ class MyHomePageState extends StatelessWidget {
 
   Future<CoronavirusData> getData({String countryCode}) async {
     try {
-      Placemark placemark = await LocationService().getPlacemark();
-      // f1 = CoronavirusService().getLocationDataFromPlacemark(placemark);
-      //if(f1 == null)
       f1 = CoronavirusService().getLatestData();
     } on Exception catch (e) {
       print(e.toString());

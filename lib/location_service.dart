@@ -15,16 +15,6 @@ class LocationService {
     }
   }
 
-  Future<Placemark> getPlacemark() async {
-    Position position = await getPosition();
-    try {
-      List<Placemark> placemarks =
-      await Geolocator().placemarkFromPosition(position);
-      return placemarks[0];
-    } catch (e) {
-      throw Exception('Failed to get placemark: $e');
-    }
-  }
 }
 
 
@@ -41,21 +31,6 @@ class CoronavirusService {
       );
     } else {
       throw Exception('Failed to load latest coronavirus data.');
-    }
-  }
-
-  Future<CoronavirusData> getLocationDataFromPlacemark(
-      Placemark placemark) async {
-    final response = await http
-        .get(baseUrl + 'locations?country_code=${placemark.isoCountryCode}');
-
-    if (response.statusCode == 200) {
-      return CoronavirusData.formatted(
-        json: jsonDecode(response.body),
-        country: placemark.country,
-      );
-    } else {
-      throw Exception('Failed to load local coronavirus data.');
     }
   }
 }

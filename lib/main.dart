@@ -8,14 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
 void main() {
 
   runApp(MyApp());
 }
-
-TabController tabController;
-
 
 class MyApp extends StatelessWidget {
 
@@ -35,6 +31,7 @@ class HomePage extends StatefulWidget {
 
 class Home extends State<HomePage> with SingleTickerProviderStateMixin{
 
+  TabController tabController;
 
   @override
   void initState() {
@@ -42,10 +39,14 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
     tabController = new TabController(length: 4, vsync: this);
   }
 
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("App started");
     SystemChrome.setEnabledSystemUIOverlays([]);
     return new MaterialApp(
       title: 'COVID TRACE',
@@ -60,7 +61,7 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
         child: new Scaffold(
           body: TabBarView(
             controller: tabController,
-            children: [MyHomePageState(), Calendar(), Survey(), EnterSurvey()],
+            children: [MyHomePageState(tabController: tabController,), Calendar(tabController: tabController,), Survey(), EnterSurvey(tabController: tabController,)],
           ),
           bottomNavigationBar: new TabBar(
             controller: tabController,
