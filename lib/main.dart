@@ -7,41 +7,34 @@ import 'package:covidtrace/entersurvey.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:covidtrace/map.dart';
 
 void main() {
-
   runApp(MyApp());
 }
 
 TabController tabController;
 
-
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new HomePage(),
     );
   }
-
 }
-class HomePage extends StatefulWidget {
 
+class HomePage extends StatefulWidget {
   @override
   Home createState() => new Home();
 }
 
-class Home extends State<HomePage> with SingleTickerProviderStateMixin{
-
-
+class Home extends State<HomePage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
     tabController = new TabController(length: 4, vsync: this);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +53,7 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
         child: new Scaffold(
           body: TabBarView(
             controller: tabController,
-            children: [MyHomePageState(), Calendar(), Survey(), EnterSurvey()],
+            children: [MyHomePageState(), Calendar(), MyMap(), EnterSurvey()],
           ),
           bottomNavigationBar: new TabBar(
             controller: tabController,
