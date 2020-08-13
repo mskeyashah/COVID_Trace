@@ -121,6 +121,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
         events: _events,
         startingDayOfWeek: StartingDayOfWeek.sunday,
         calendarStyle: CalendarStyle(
+          weekendStyle: TextStyle().copyWith(color: Colors.black),
           selectedColor: Colors.transparent,
           todayStyle: TextStyle(
             color: Colors.black,
