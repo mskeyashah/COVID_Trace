@@ -106,7 +106,7 @@ class EnterSurveyState extends State<EnterSurvey> {
                           else{
                           setState(() {
                             happyimage = 'images/pressedhappyface.png';
-                            Alert(context: context,
+                            /*Alert(context: context,
                                 title: "",
                                 content: Column(
                                     children: <Widget>[
@@ -120,15 +120,15 @@ class EnterSurveyState extends State<EnterSurvey> {
                                 buttons: [
                                   DialogButton(
                                       onPressed: () {
-                                      Navigator.pop(context);},
+                                      },
                                       child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                       color: Colors.transparent
                                   )
                                 ],
                                 closeFunction: (){
-                                  //Navigator.of(context, rootNavigator: false).pop();
-                                  Navigator.pop(context,false);
-                                }).show();
+                                  Navigator.of(dcon, rootNavigator: true,).pop();
+                                  //Navigator.pop(context,false);
+                                }).show();*/
 
                           });
 
@@ -151,7 +151,7 @@ class EnterSurveyState extends State<EnterSurvey> {
                             sadimage = 'images/pressedsadface.png';
                           });
 
-                          Alert(context: context,
+                         /* Alert(context: context,
                               title: "",
                               content: Column(
                                   children: <Widget>[
@@ -167,8 +167,12 @@ class EnterSurveyState extends State<EnterSurvey> {
                                     onPressed: () {},
                                     child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
                                     color: Colors.transparent
-                                )
-                              ],).show();
+                                ),
+                              ],
+                              closeFunction: (){
+
+                              }
+                          ).show();*/
 
                         }
                       },
@@ -288,7 +292,7 @@ class EnterSurveyState extends State<EnterSurvey> {
                 ),
                 SizedBox(width: 0.5),
                 Text(
-                  'Mask',
+                  'Facecover',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),

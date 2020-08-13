@@ -98,6 +98,7 @@ class MyHomePageState extends StatelessWidget {
                 Expanded(
                   child: FlatButton(
                     onPressed: () {
+                      tabController.index = 2;
                     },
                     padding: EdgeInsets.fromLTRB(10.0, 5, 5.0, 20),
                     child: Image.asset('images/hotspots.png'),

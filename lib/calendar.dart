@@ -9,6 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 
+
 class Calendar extends StatefulWidget {
   final TabController tabController;
 
@@ -30,13 +31,13 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
   AnimationController _animationController;
   CalendarController _calendarController;
 
+
   @override
   void initState() {
     super.initState();
     final _selectedDay = DateTime.now();
     var difference;
     _events = {};
-
     if(finalselectedDate != null && selection != "No")
     {
       difference = _selectedDay.difference(finalselectedDate).inDays;
