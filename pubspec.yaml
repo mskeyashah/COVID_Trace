@@ -39,6 +39,11 @@ dependencies:
   giffy_dialog: ^1.6.1
   table_calendar: ^2.2.3
   pie_chart: ^3.1.1
+  google_maps_flutter: ^0.5.30
+  location: '2.3.5'
+
+
+  
 
 
 

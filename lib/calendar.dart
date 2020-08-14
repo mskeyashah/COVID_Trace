@@ -8,14 +8,12 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-
-
 class Calendar extends StatefulWidget {
   @override
   CalendarPage createState() => CalendarPage();
 }
 
-class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
+class CalendarPage extends State<Calendar> with TickerProviderStateMixin {
   Map<String, double> dataMap = new Map();
   DateTime endDate;
   List<Color> _colors = [
@@ -34,25 +32,21 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     var difference;
     _events = {};
 
-    if(finalselectedDate != null && selection != "No")
-    {
+    if (finalselectedDate != null && selection != "No") {
       difference = _selectedDay.difference(finalselectedDate).inDays;
       endDate = finalselectedDate.add(Duration(days: 15));
-      if(difference>14)
-      {
-        for (int x = 0; x <=14; x++) {
+      if (difference > 14) {
+        for (int x = 0; x <= 14; x++) {
           _events[finalselectedDate.add(Duration(days: x))] = ['$x'];
         }
-
-      }
-      else {
+      } else {
         for (int x = difference; x >= 0; x--) {
           int dayssince = difference - x;
           _events[_selectedDay.subtract(Duration(days: x))] = ['$dayssince'];
         }
         int dif = endDate.difference(_selectedDay).inDays;
-        for (int x = 1; x <=dif; x++) {
-          if(x==dif)
+        for (int x = 1; x <= dif; x++) {
+          if (x == dif)
             _events[_selectedDay.add(Duration(days: x))] = ['non14'];
           else
             _events[_selectedDay.add(Duration(days: x))] = ['non'];
@@ -64,7 +58,7 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     _calendarController = CalendarController();
 
     _animationController = AnimationController(
-      vsync: this,
+      //vsync: this,
       duration: const Duration(milliseconds: 400),
     );
 
@@ -84,11 +78,11 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
     });
   }
 
-  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-  }
+  void _onVisibleDaysChanged(
+      DateTime first, DateTime last, CalendarFormat format) {}
 
-  void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
-  }
+  void _onCalendarCreated(
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +104,11 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
             thickness: 1,
           ),
           Expanded(child: _buildEventList()),
-
         ],
       ),
-
     );
   }
+
   Widget _buildTableCalendar() {
     return TableCalendar(
         calendarController: _calendarController,
@@ -143,7 +136,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
           ),
           centerHeaderTitle: true,
           formatButtonVisible: false,
-
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
           weekendStyle: TextStyle().copyWith(color: Colors.grey),
@@ -167,7 +159,8 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
           },
           todayDayBuilder: (context, date, _) {
             return FadeTransition(
-              opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+              opacity:
+                  Tween(begin: 0.0, end: 1.0).animate(_animationController),
               child: Container(
                   color: Colors.transparent,
                   width: 120,
@@ -177,12 +170,13 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       SizedBox(
                         height: 60,
                         width: 60,
-                        child:Icon(Icons.lens,color: Colors.grey[300], size: 40),
+                        child:
+                            Icon(Icons.lens, color: Colors.grey[300], size: 40),
                       ),
                       Positioned(
                         width: 50,
                         top: 17,
-                        child:Text(
+                        child: Text(
                           '${date.day}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -194,21 +188,24 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                       SizedBox(
                         height: 60,
                         width: 70,
-                        child:Icon(Icons.panorama_fish_eye,color: Colors.orange,size: 40,),
+                        child: Icon(
+                          Icons.panorama_fish_eye,
+                          color: Colors.orange,
+                          size: 40,
+                        ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             );
           },
-        )
-    );
+        ));
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
-    if(!events[0].contains("non") && date.difference(DateTime.now()).inDays!=0) {
-
-      if(events[0].contains("0") && date.difference(finalselectedDate).inDays==0){
+    if (!events[0].contains("non") &&
+        date.difference(DateTime.now()).inDays != 0) {
+      if (events[0].contains("0") &&
+          date.difference(finalselectedDate).inDays == 0) {
         return Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             padding: const EdgeInsets.only(top: 0, left: 0.0),
@@ -231,15 +228,12 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 52.0,
                   height: 26.0,
-                  child:
-                  Text(
+                  child: Text(
                     '${date.day}',
-                    style: TextStyle(color: Colors.white).copyWith(
-                        fontSize: 14.0),
+                    style:
+                        TextStyle(color: Colors.white).copyWith(fontSize: 14.0),
                   ),
-
                 ),
-
                 SizedBox(height: 6),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -249,13 +243,10 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
-            )
-        );
-      }
-      else if(events[0].contains("14")){
+            ));
+      } else if (events[0].contains("14")) {
         return Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             padding: const EdgeInsets.only(top: 0, left: 0.0),
@@ -273,20 +264,16 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                         topLeft: Radius.zero,
                         topRight: Radius.circular(20.0),
                         bottomLeft: Radius.zero,
-                        bottomRight: Radius.circular(20.0)
-                    ),
+                        bottomRight: Radius.circular(20.0)),
                   ),
                   width: 52.0,
                   height: 26.0,
-                  child:
-                  Text(
+                  child: Text(
                     '${date.day}',
-                    style: TextStyle(color: Colors.white).copyWith(
-                        fontSize: 14.0),
+                    style:
+                        TextStyle(color: Colors.white).copyWith(fontSize: 14.0),
                   ),
-
                 ),
-
                 SizedBox(height: 6),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -296,13 +283,10 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
-            )
-        );
-      }
-      else{
+            ));
+      } else {
         return Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             padding: const EdgeInsets.only(top: 0, left: 0.0),
@@ -319,15 +303,12 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 52.0,
                   height: 26.0,
-                  child:
-                  Text(
+                  child: Text(
                     '${date.day}',
-                    style: TextStyle(color: Colors.white).copyWith(
-                        fontSize: 14.0),
+                    style:
+                        TextStyle(color: Colors.white).copyWith(fontSize: 14.0),
                   ),
-
                 ),
-
                 SizedBox(height: 6),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -337,78 +318,65 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                   ),
                   width: 8.0,
                   height: 8.0,
-
                 )
               ],
-            )
-        );
+            ));
       }
-    }
-    else if(events[0].contains("non")){
-      if(events[0].contains("14")) {
+    } else if (events[0].contains("non")) {
+      if (events[0].contains("14")) {
         return Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             padding: const EdgeInsets.only(top: 0, left: 0.0),
             color: Colors.transparent,
             width: 52,
             height: 40,
-            child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 7, left: 20.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.zero,
-                        topRight: Radius.circular(20.0),
-                        bottomLeft: Radius.zero,
-                        bottomRight: Radius.circular(20.0),
-                      ),
-                    ),
-                    width: 52.0,
-                    height: 26.0,
-                    child:
-                    Text(
-                      '${date.day}',
-                      style: TextStyle(color: Colors.black).copyWith(
-                          fontSize: 14.0),
-                    ),
-
+            child: Column(children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 7, left: 20.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.zero,
+                    topRight: Radius.circular(20.0),
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.circular(20.0),
                   ),
-                ]));
-      }
-      else
-      {
+                ),
+                width: 52.0,
+                height: 26.0,
+                child: Text(
+                  '${date.day}',
+                  style:
+                      TextStyle(color: Colors.black).copyWith(fontSize: 14.0),
+                ),
+              ),
+            ]));
+      } else {
         return Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             padding: const EdgeInsets.only(top: 0, left: 0.0),
             color: Colors.transparent,
             width: 52,
             height: 40,
-            child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 7, left: 20.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.grey[300],
-                    ),
-                    width: 52.0,
-                    height: 26.0,
-                    child:
-                    Text(
-                      '${date.day}',
-                      style: TextStyle(color: Colors.black).copyWith(
-                          fontSize: 14.0),
-                    ),
-
-                  ),
-                ]));
+            child: Column(children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 7, left: 20.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.grey[300],
+                ),
+                width: 52.0,
+                height: 26.0,
+                child: Text(
+                  '${date.day}',
+                  style:
+                      TextStyle(color: Colors.black).copyWith(fontSize: 14.0),
+                ),
+              ),
+            ]));
       }
-    }
-    else if(date.difference(DateTime.now()).inDays ==0)
-    {
+    } else if (date.difference(DateTime.now()).inDays == 0) {
       return Container(
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           padding: const EdgeInsets.only(top: 0, left: 0.0),
@@ -425,7 +393,6 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                 ),
                 width: 52.0,
                 height: 26.0,
-
               ),
               SizedBox(height: 6),
               AnimatedContainer(
@@ -436,42 +403,40 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                 ),
                 width: 8.0,
                 height: 8.0,
-
               )
-
             ],
           ));
     }
-
-
   }
 
   Widget _buildEventList() {
-    if(_selectedEvents.length != 0 && !_selectedEvents[0].contains("non")) {
+    if (_selectedEvents.length != 0 && !_selectedEvents[0].contains("non")) {
       dataMap["Flutter"] = double.parse(_selectedEvents.elementAt(0));
       dataMap["React"] = 14 - double.parse(_selectedEvents.elementAt(0));
       return ListView(
         children: _selectedEvents
-            .map((event) =>
-            Container(
+            .map((event) => Container(
                 height: 320,
                 width: 100,
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 0.0, vertical: 4.0),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
                 child: Stack(
                   children: <Widget>[
-                    Positioned(child: Image.asset("images/home.png", height: 70,
-                      width: 60,), left: 72, top: 40,),
+                    Positioned(
+                      child: Image.asset(
+                        "images/home.png",
+                        height: 70,
+                        width: 60,
+                      ),
+                      left: 72,
+                      top: 40,
+                    ),
                     Positioned(
                       left: 30,
                       top: 10,
-                      child:
-                      PieChart(
+                      child: PieChart(
                         dataMap: dataMap,
-                        chartRadius: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 3,
+                        chartRadius: MediaQuery.of(context).size.width / 3,
                         colorList: _colors,
                         showLegends: false,
                         showChartValueLabel: false,
@@ -486,40 +451,33 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                     Positioned(
                       left: 180,
                       top: 10,
-                      child: Text(
-                          _selectedEvents.elementAt(0),
+                      child: Text(_selectedEvents.elementAt(0),
                           style: TextStyle(
                               color: Colors.deepPurple,
                               fontSize: 70,
-                              fontWeight: FontWeight.bold
-                          )
-                      ),
+                              fontWeight: FontWeight.bold)),
                     ),
                     Positioned(
                       left: 265,
                       top: 30,
-                      child: Text(
-                          "DAYS SINCE\nCONTACT",
+                      child: Text("DAYS SINCE\nCONTACT",
                           style: TextStyle(
                             color: Colors.deepPurple,
                             fontSize: 17,
-                          )
-                      ),
+                          )),
                     ),
                     Positioned(
                       left: 200,
                       top: 90,
-                      child: Text(
-                          "PLEASE CONTINUE\nTO SELF-ISOLATE",
+                      child: Text("PLEASE CONTINUE\nTO SELF-ISOLATE",
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 17,
-                          )
-                      ),
+                          )),
                     ),
-                    SizedBox(height: 325,
-                      child:
-                      Divider(
+                    SizedBox(
+                      height: 325,
+                      child: Divider(
                         color: Colors.grey,
                         height: 10,
                         thickness: 1,
@@ -527,37 +485,37 @@ class CalendarPage extends State<Calendar> with TickerProviderStateMixin{
                     ),
                     Column(
                       children: <Widget>[
-                        SizedBox(height: 175,),
+                        SizedBox(
+                          height: 175,
+                        ),
                         FlatButton(
-                            onPressed: () {
-
-                            },
+                            onPressed: () {},
                             child: Image.asset(
-                              "images/covidsymptom.png", height: 70,
-                              width: 350,)
-                        )
+                              "images/covidsymptom.png",
+                              height: 70,
+                              width: 350,
+                            ))
                       ],
                     )
                   ],
-                )
-            )).toList(),
+                )))
+            .toList(),
       );
-    }
-    else
-    {
+    } else {
       return ListView(
         children: <Widget>[
           Column(
             children: <Widget>[
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               FlatButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   child: Image.asset(
-                    "images/covidsymptom.png", height: 70,
-                    width: 350,)
-              )
+                    "images/covidsymptom.png",
+                    height: 70,
+                    width: 350,
+                  ))
             ],
           )
         ],
