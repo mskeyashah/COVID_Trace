@@ -61,7 +61,7 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
         child: new Scaffold(
           body: TabBarView(
             controller: tabController,
-            children: [MyHomePageState(tabController: tabController,), Calendar(tabController: tabController,), Survey(), EnterSurvey(tabController: tabController,)],
+            children: [MyHomePageState(tabController: tabController,), Calendar(tabController: tabController,), MyMap(), EnterSurvey(tabController: tabController,)],
           ),
           bottomNavigationBar: new TabBar(
             controller: tabController,
