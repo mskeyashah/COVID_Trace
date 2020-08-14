@@ -9,39 +9,45 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:covidtrace/main.dart';
-import 'package:geolocator/geolocator.dart';
-
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Geolocation Google Maps Demo',
-      home: MyMap(),
-    );
-  }
-}
+import 'package:location/location.dart';
 
 class MyMap extends StatefulWidget {
   @override
-  State<MyMap> createState() => MyMapSampleState();
+  _MyMapState createState() => _MyMapState();
 }
 
-class MyMapSampleState extends State<MyMap> {
+class _MyMapState extends State<MyMap> {
+  LatLng _initialPosition = LatLng(37.42796133580664, -122.0857496555962);
+  GoogleMapController _controller;
+  Location _location = Location();
+
+  void _onMapCreated(GoogleMapController _cntrl) {
+    _controller = _cntrl;
+    _location.onLocationChanged().listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(l.latitude, l.longitude),
+            zoom: 15,
+          ),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(40.688841, -74.044015),
-          zoom: 11,
-        ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            initialCameraPosition:
+                CameraPosition(target: _initialPosition, zoom: 10),
+            mapType: MapType.terrain,
+            onMapCreated: _onMapCreated,
+            myLocationEnabled: true,
+          ),
+        ],
       ),
     );
   }
