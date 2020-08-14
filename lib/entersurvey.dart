@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:covidtrace/main.dart';
 import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_dialog/easy_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -106,32 +108,24 @@ class EnterSurveyState extends State<EnterSurvey> {
                           else{
                           setState(() {
                             happyimage = 'images/pressedhappyface.png';
-                            /*Alert(context: context,
-                                title: "",
-                                content: Column(
-                                    children: <Widget>[
-                                      Image.asset("images/good.png"),
-                                      Text("Awesome!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-
-                                      Text("\nWe are adding your health update to your calendar. Keep up the good habits!\n\nRemember to follow safety protocol!",
-                                        style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
-
-                                    ]),
-                                buttons: [
-                                  DialogButton(
-                                      onPressed: () {
-                                      },
-                                      child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
-                                      color: Colors.transparent
-                                  )
-                                ],
-                                closeFunction: (){
-                                  Navigator.of(dcon, rootNavigator: true,).pop();
-                                  //Navigator.pop(context,false);
-                                }).show();*/
-
                           });
-
+                          EasyDialog(
+                            contentPadding:	EdgeInsets.all(0.0),
+                            topImage: 	AssetImage("images/goodpic.png",),
+                            contentList: [
+                              DialogButton(
+                                height: 61.18,
+                                  onPressed: () {
+                                    //widget.tabController.index = 1;
+                                    //Navigator.pop(context);
+                                  },
+                                  child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
+                                  color: Colors.white,
+                              ),
+                            ],
+                            height: 360,
+                            width: 310,
+                          ).show(context);
                          }
                       },
                       padding: EdgeInsets.fromLTRB(10.0, 0, 5.0, 0),
@@ -150,30 +144,20 @@ class EnterSurveyState extends State<EnterSurvey> {
                           setState(() {
                             sadimage = 'images/pressedsadface.png';
                           });
-
-                         /* Alert(context: context,
-                              title: "",
-                              content: Column(
-                                  children: <Widget>[
-                                    Image.asset("images/bad.png"),
-                                    Text("Oh no!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-
-                                    Text("\nSorry you're not feeling well. Keep tracking your symptoms and get tested.\n\nFor serious symptoms seek immediate medical attention.",
-                                      style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
-
-                                  ]),
-                              buttons: [
-                                DialogButton(
-                                    onPressed: () {},
-                                    child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
-                                    color: Colors.transparent
-                                ),
-                              ],
-                              closeFunction: (){
-
-                              }
-                          ).show();*/
-
+                          EasyDialog(
+                            contentPadding:	EdgeInsets.all(0.0),
+                            topImage: 	AssetImage("images/bad.png",),
+                            contentList: [
+                              DialogButton(
+                                  onPressed: () {},
+                                  height: 65.5,
+                                  child: Text("SEE TESTING LOCATIONS", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
+                                  color: Colors.white
+                              ),
+                            ],
+                            height: 360,
+                            width: 310,
+                          ).show(context);
                         }
                       },
                       padding: EdgeInsets.fromLTRB(5.0, 0, 10.0, 5),
@@ -201,14 +185,18 @@ class EnterSurveyState extends State<EnterSurvey> {
                 children: [
                   Expanded(
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        launch("https://www.cdc.gov/coronavirus/2019-ncov/index.html");
+                      },
                       padding: EdgeInsets.fromLTRB(20.0, 0, 5.0, 5),
                       child: Image.asset('images/CDC.png'),
                     ),
                   ),
                   Expanded(
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        launch("https://www.cdc.gov/coronavirus/2019-ncov/php/contact-tracing/contact-tracing-plan/contact-tracing.html");
+                      },
                       padding: EdgeInsets.fromLTRB(5.0, 0, 20.0, 5),
                       child: Image.asset('images/Notifying.png'),
                     ),
@@ -286,19 +274,19 @@ class EnterSurveyState extends State<EnterSurvey> {
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Text(
-                  'Distance',
+                  'Distance       ',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
-                SizedBox(width: 0.5),
+                //SizedBox(width: 0.5),
                 Text(
-                  'Facecover',
+                  'Facecover     ',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),
-                SizedBox(width: 8),
+                //SizedBox(width: 1),
                 Text(
-                  'Hands',
+                  '    Hands   ',
                   style:
                       TextStyle(fontWeight: FontWeight.normal, fontSize: 15.0),
                 ),

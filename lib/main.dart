@@ -5,10 +5,7 @@ import 'package:covidtrace/survey.dart';
 import 'package:covidtrace/calendar.dart';
 import 'package:covidtrace/entersurvey.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:covidtrace/map.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() {
@@ -35,16 +32,10 @@ class HomePage extends StatefulWidget {
 class Home extends State<HomePage> with SingleTickerProviderStateMixin{
 
   TabController tabController;
-  void getpref() async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    selection = prefs.getString("selection");
-    text1 = prefs.getString("text1");
-  }
 
   @override
   void initState() {
     super.initState();
-    getpref();
     tabController = new TabController(length: 4, vsync: this);
   }
 
@@ -70,7 +61,7 @@ class Home extends State<HomePage> with SingleTickerProviderStateMixin{
         child: new Scaffold(
           body: TabBarView(
             controller: tabController,
-            children: [MyHomePageState(tabController: tabController,), Calendar(tabController: tabController,), MyMap(), EnterSurvey(tabController: tabController,)],
+            children: [MyHomePageState(tabController: tabController,), Calendar(tabController: tabController,), Survey(), EnterSurvey(tabController: tabController,)],
           ),
           bottomNavigationBar: new TabBar(
             controller: tabController,

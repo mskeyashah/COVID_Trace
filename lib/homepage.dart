@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:covidtrace/location_service.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:covidtrace/survey.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 Future<CoronavirusData> f1;
 
@@ -131,12 +133,16 @@ class MyHomePageState extends StatelessWidget {
               child: Image.asset('images/gettested.png'),
             ),
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                launch("https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/prevention.html");
+              },
               padding: EdgeInsets.fromLTRB(10.0, 2.5, 10.0, 0),
               child: Image.asset('images/bestpractices.png'),
             ),
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                launch("https://www.who.int/health-topics/coronavirus#tab=tab_3");
+              },
               padding: EdgeInsets.fromLTRB(10.0, 2.5, 10.0, 0),
               child: Image.asset('images/who.png'),
             ),

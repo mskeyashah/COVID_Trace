@@ -4,7 +4,6 @@ import 'package:covidtrace/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 
 
 DateTime finalselectedDate;
@@ -255,33 +254,51 @@ class SurveyPage extends State<Survey> {
 
                         child: RaisedButton(
                           onPressed: () {
-                            finalselectedDate = _selectedDate;
-                            //showAlertDialog(context);
-                            Alert(context: context,
-                                title: "",
-                                content: Column(
-                            children: <Widget>[
-                              Image.asset("images/reportrecorded.png"),
-                              Text("Report Recorded!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                            if(isNull()) {
+                              finalselectedDate = _selectedDate;
+                              //showAlertDialog(context);
+                              Alert(context: context,
+                                  title: "",
+                                  content: Column(
+                                      children: <Widget>[
+                                        Image.asset(
+                                            "images/reportrecorded.png"),
+                                        Text("Report Recorded!",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18)),
 
-                              Text("\nThank you for reporting your results. Your information will remain anonymous and stored on your device.\n\nRemember to keep track of your symptoms and health.",
-                                  style: TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
+                                        Text(
+                                          "\nThank you for reporting your results. Your information will remain anonymous and stored on your device.\n\nRemember to keep track of your symptoms and health.",
+                                          style: TextStyle(
+                                              fontSize: 16, color: Colors.grey),
+                                          textAlign: TextAlign.center,),
 
-                            ]),
-                                buttons: [
-                                  DialogButton(
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
-                                     Navigator.pop(context,true);
-                                    },
-                                    child: Text("GO TO CALENDAR", style: TextStyle(color: Colors.deepPurple,decoration: TextDecoration.underline, fontSize: 18, fontWeight: FontWeight.bold)),
-                                    color: Colors.transparent
-                                  )
-                                ],
-                                closeFunction: (){
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                  //Navigator.pop(context);
-                            }).show();
+                                      ]),
+                                  buttons: [
+                                    DialogButton(
+                                        onPressed: () {
+                                          Navigator.of(
+                                              context, rootNavigator: true)
+                                              .pop();
+                                          Navigator.pop(context, true);
+                                        },
+                                        child: Text("GO TO CALENDAR",
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                decoration: TextDecoration
+                                                    .underline,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold)),
+                                        color: Colors.transparent
+                                    )
+                                  ],
+                                  closeFunction: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    //Navigator.pop(context);
+                                  }).show();
+                            }
 
                           },
                           shape: RoundedRectangleBorder(
