@@ -38,8 +38,21 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("\n Watch out for hot spots!"),
+        elevation: 0.0,
+      ),
       body: Stack(
         children: <Widget>[
+          Container(
+              color: Colors.deepPurple,
+              child: Row(
+                children: <Widget>[
+                  SizedBox(width: 15),
+                  Text(" Hot spots are based on how crowded the area is.",
+                      style: TextStyle(color: Colors.white))
+                ],
+              )),
           GoogleMap(
             initialCameraPosition:
                 CameraPosition(target: _initialPosition, zoom: 10),
